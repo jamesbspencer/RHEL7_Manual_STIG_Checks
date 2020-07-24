@@ -1,0 +1,50 @@
+## Ansible script to push the manual stig checks zip, extract, run, collect, and cleanup ##
+
+- name: "Group systems by OS"
+  hosts: server1,server2
+  become: true
+  tasks:
+    - name: "Create dynamic groups based on OS major version"
+      group_by:
+        key: os-{{ansible_distribution}}-{{ansible_distribution_major_version}}
+
+- name: "Run the script collection against the OS package"
+  hosts: os-RedHat-7
+  become: true
+  vars:
+    upper_name: "{{ ansible_hostname|upper }}"
+  tasks:
+    - name: "Create a working directory on the destination server"
+      file:
+        path: ~/stig_checks
+        state: directory
+
+    - name: "Copy the zip file to the destination server and unzip"
+      unarchive:
+        src: ./stig_checks.zip
+        dest: ~/stig_checks
+
+    - name: "Run the shell script"
+      shell: /bin/bash ~/stig_checks/stig_checks.sh
+      #no_log: true
+
+    - name: "Find the output file"
+      find:
+        paths: ~/stig_checks
+        patterns: "*.ckl"
+      register: stig_file
+
+    - name: Pull the file back"
+      fetch:
+        src: "{{ item.path }}"
+        dest: ./
+        flat: yes
+      loop: "{{ stig_file.files }}"
+      when: item.path is regex(upper_name)
+      register: file_fetch
+
+    - name: "Cleanup"
+      file:
+        path: ~/stig_checks
+        state: absent
+      when: file_fetch.changed or file_fetch.ok
