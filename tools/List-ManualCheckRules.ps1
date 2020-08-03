@@ -40,4 +40,8 @@ foreach($man_rule in $man_array){
     [void]$description_array.Add("- $man_rule - $rule_id - $rule_title")
     }
 
-$description_array | Out-File -FilePath "$script_root\ManualCheckRules.txt" -Force
+# Variables for our file name.
+$ver = $base_xml.Benchmark.version
+$rel = ((($base_xml.Benchmark.'plain-text'.'#text' -split ":")[1]).Trim() -split " ")[0]
+
+$description_array | Out-File -FilePath "$script_root\ManualCheckRulesV$ver`R$rel.txt" -Force

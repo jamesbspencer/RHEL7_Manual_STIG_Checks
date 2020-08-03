@@ -1,6 +1,7 @@
 #!/bin/bash 
 
- # V-71991 - SV-86615r5_rule - The Red Hat Enterprise Linux operating system must enable the SELinux targeted policy. # Valid results are Open, NotAFinding, Not_Applicable, and Not_Reviewed 
+ # SV-86615r6_rule - V-71991 - The Red Hat Enterprise Linux operating system must enable the SELinux targeted policy. 
+ # Valid results are Open, NotAFinding, Not_Applicable, and Not_Reviewed 
  result='Not_Reviewed' 
 
 running_policy=$(sudo sestatus | grep ^Loaded[[:space:]]policy[[:space:]]name | awk -F: '{print $2}' | sed  's/[ \t]*//g')
@@ -12,4 +13,4 @@ else
 	result="NotAFinding"
 fi
 
- echo "V-71991 - SV-86615r5_rule - $result - $finding"  
+ echo "V-71991 - SV-86615r6_rule - $result - $finding"  

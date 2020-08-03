@@ -1,7 +1,8 @@
 #!/bin/bash 
 
-# V-92255 - SV-102357r1_rule - The Red Hat Enterprise Linux operating system must have a host-based intrusion detection tool installed. # Valid results are Open, NotAFinding, Not_Applicable, and Not_Reviewed 
-result='Not_Reviewed' 
+ # SV-102357r2_rule - V-92255 - The Red Hat Enterprise Linux operating system must have a host-based intrusion detection tool installed. 
+ # Valid results are Open, NotAFinding, Not_Applicable, and Not_Reviewed 
+ result='Not_Reviewed' 
 
 hips=$(sudo rpm -qa | grep MFEhiplsm)
 if [ -z "$hips" ]; then
@@ -17,4 +18,4 @@ else
 	fi
 fi
 
-echo "V-92255 - SV-102357r1_rule - $result - $finding"  
+ echo "V-92255 - SV-102357r2_rule - $result - $finding"  
