@@ -6,7 +6,7 @@ result='Not_Reviewed'
 aide=$(sudo rpm -qa | grep "aide")
 if [ -z "$aide" ]
 then
-	result='Open'
+	result='Not_Reviewed'
 	finding="AIDE is not installed"
 	
 else

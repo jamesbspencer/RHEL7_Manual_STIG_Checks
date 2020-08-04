@@ -5,10 +5,15 @@ result='Not_Reviewed'
 
 active=$(sudo systemctl show ntpd --property=ActiveState | awk -F= '{print $2}')
 if [ "$active" =  "active" ]; then
-	max_poll=$(sudo grep -v ^# /etc/ntp.conf | grep ^maxpoll | awk '{print $2}')
-	if [ "$max_poll" -ge "17" ] || [ -z "$max_poll" ]; then
+	max_poll=$(sudo grep -v ^# /etc/ntp.conf | grep -o 'maxpoll[[:space:]]*[0-9]*' | uniq | awk '{print $2}')
+	if test -z "$max_poll"
+	then
 		result='Open'
-		finding="Max Poll is set too high"
+		finding="Max Poll is not set"
+	elif [ "$max_pool" -ge "17" ]
+	then
+		result="Open"
+		finding"Max Poll is set too high"
 	else
 		result="NotAFinding"
 	fi

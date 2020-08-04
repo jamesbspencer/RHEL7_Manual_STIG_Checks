@@ -6,8 +6,8 @@
 aide_pkg=`rpm -qa | grep aide`
 if [ -z "$aide_pkg" ]
 then
-	result='Open'
-	finding="Package not installed"
+	result='NotReviewed'
+	finding="Is another file integrity monitor being used"
 else
 	aide_cron=$(sudo grep aide /etc/cron.daily/* /etc/crontab /var/spool/cron/root | grep -v :# | grep -v ^#)
 	if [ -z "$aide_cron" ]

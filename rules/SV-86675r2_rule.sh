@@ -8,8 +8,10 @@ msgs=$(sudo grep -v ^# /etc/rsyslog.conf /etc/rsyslog.d/* | grep /var/log/messag
 if [ -z "$cron" ] || [ -z "$msgs" ]
 then
 	result='Open'
+	finding="Cron not being logged"
 else
 	result="NotAFinding"
+	
 fi
 
 

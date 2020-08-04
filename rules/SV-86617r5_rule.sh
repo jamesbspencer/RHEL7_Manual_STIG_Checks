@@ -7,6 +7,7 @@ mask=$(sudo systemctl status ctrl-alt-del.target | grep Loaded | awk -F: '{print
 activ=$(sudo systemctl status ctrl-alt-del.target | grep Active | awk -F: '{print $2}' | awk -F\( '{print $1}')
 if [[ ! "$mask" =~ masked ]] && [[ ! "$activ" =~ inactive ]]; then
 	result='Open'
+	finding="ctrl-alt-del.target is active"
 else
 	result="NotAFinding"
 fi
